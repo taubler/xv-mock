@@ -2,13 +2,15 @@ package com.taubler.vxmock.routes;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.taubler.vxmock.handlers.RequestHandler;
 import com.taubler.vxmock.io.InitMessager;
 
 public abstract class RouteFileParser {
 	
-	public Map<String, String> parse() throws Exception {
+	public Map<String, List<RequestHandler>> parse() throws Exception {
 		
 		String fileName = getFileName();
 		File routeFile = new File( fileName );
@@ -16,7 +18,7 @@ public abstract class RouteFileParser {
 		if (routeFile.exists()) {
 			
 			InitMessager.output("Reading routes file: " + routeFile);
-			Map<String, String> routes = new HashMap<String, String>();
+			Map<String, List<RequestHandler>> routes = new HashMap<>();
 			try {
 				parseRoutes(routeFile, routes);
 				return routes;
@@ -34,7 +36,7 @@ public abstract class RouteFileParser {
 
 	}
 
-	protected abstract void parseRoutes(File routeFile, Map<String, String> routes) throws Exception;
+	protected abstract void parseRoutes(File routeFile, Map<String, List<RequestHandler>> routes) throws Exception;
 	
 	public abstract String getFileName();
 

@@ -1,0 +1,12 @@
+[
+	{
+		"route": "/api/ls/v1/account/:locid/loc",
+		"setCookie": {
+			"name": "sessionid",
+			"value": "ABC1234"
+		},
+		"file": {
+			"path": "vertx_classpath.txt"
+		}
+	}
+]

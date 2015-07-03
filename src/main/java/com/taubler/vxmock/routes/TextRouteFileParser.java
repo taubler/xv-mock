@@ -3,8 +3,12 @@ package com.taubler.vxmock.routes;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import com.taubler.vxmock.handlers.FilePathRequestHandler;
+import com.taubler.vxmock.handlers.RequestHandler;
 
 public class TextRouteFileParser extends RouteFileParser {
 	
@@ -16,7 +20,7 @@ public class TextRouteFileParser extends RouteFileParser {
 	}
 
 	@Override
-	protected void parseRoutes(File routeFile, Map<String, String> routes) throws Exception {
+	protected void parseRoutes(File routeFile, Map<String, List<RequestHandler>> routes) throws Exception {
 		List<String> lines = Files.readAllLines(routeFile.toPath(), Charset.defaultCharset());
 		if (lines.size() % 2 != 0) {
 			throw new RuntimeException(
@@ -26,7 +30,7 @@ public class TextRouteFileParser extends RouteFileParser {
 			while (cursor < lines.size()) {
 				String urlPath = lines.get(cursor++).trim();
 				String filePath = lines.get(cursor++).trim();
-				routes.put(urlPath, filePath);
+				routes.put(urlPath, Arrays.asList( new FilePathRequestHandler(filePath) ));
 			}
 		}
 	}

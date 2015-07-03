@@ -39,6 +39,7 @@ public class Mock {
 			
 		}
 		Vertx vertx = VertxFactory.newVertx();
+		loadRoutes();
 		HttpServer httpServer = vertx.createHttpServer().requestHandler(delegatingMatcher).listen(port);
 		
 		RuntimeMessager.output("Webserver started, listening on port: " + port);

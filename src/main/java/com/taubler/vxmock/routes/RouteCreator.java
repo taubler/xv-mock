@@ -7,14 +7,19 @@ import java.util.Map;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.http.HttpServerRequest;
 
+import com.taubler.vxmock.handlers.RequestHandler;
+import com.taubler.vxmock.handlers.RequestHandlerDelegate;
+
 public class RouteCreator {
 	
 	private static final List<? extends RouteFileParser> routeFileParsers = 
-			Arrays.asList(new TextRouteFileParser());
+			Arrays.asList(new JsonRouteFileParser()
+//			, new TextRouteFileParser()
+			);
 	
 	public VxMockRouteMatcher createRoutes() throws Exception {
 		
-		Map<String, String> routes = null;
+		Map<String, List<RequestHandler>> routes = null;
 		
 		for (RouteFileParser parser : routeFileParsers) {
 			routes = parser.parse();
@@ -31,7 +36,9 @@ public class RouteCreator {
 		};
 		
 		for (String path : routes.keySet()) {
-			matcher.addRoute( path, routes.get(path) );
+			RequestHandlerDelegate rhDelegate = new RequestHandlerDelegate();
+			rhDelegate.setRequestHandlers(routes.get(path));
+			matcher.get( path, rhDelegate );
 		}
 		
 		return matcher;
