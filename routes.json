@@ -2,8 +2,11 @@
 	{
 		"route": "/api/ls/v1/account/:locid/loc",
 		"setCookie": {
-			"name": "sessionid",
-			"value": "ABC1234"
+			"name": "sessionid2",
+			"value": "ABC${locid}1234",
+			"path": "/",
+			"httpOnly": true,
+			"age": 345678
 		},
 		"file": {
 			"path": "vertx_classpath.txt"
