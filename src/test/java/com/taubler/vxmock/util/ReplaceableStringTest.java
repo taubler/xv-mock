@@ -38,7 +38,7 @@ public class ReplaceableStringTest {
 	}
 	
 	@Test
-	public void testFromString() {
+	public void testFromString_twoTokens() {
 		ReplaceableString rs = ReplaceableString.fromString("abc${one}defghi${two}");
 		assertNotNull(rs);
 		assertEquals(4, rs.parts.size());
@@ -50,6 +50,58 @@ public class ReplaceableStringTest {
 		assertEquals(StaticPart.class, rs.parts.get(2).getClass());
 		assertEquals("two", rs.parts.get(3).string);
 		assertEquals(TokenPart.class, rs.parts.get(3).getClass());
+	}
+	
+	@Test
+	public void testFromString_onlyOneToken() {
+		ReplaceableString rs = ReplaceableString.fromString("${one}");
+		assertNotNull(rs);
+		assertEquals(1, rs.parts.size());
+		assertEquals("one", rs.parts.get(0).string);
+		assertEquals(TokenPart.class, rs.parts.get(0).getClass());
+	}
+	
+	@Test
+	public void testFromString_onlyTwoTokensInARow() {
+		ReplaceableString rs = ReplaceableString.fromString("${one}${t}");
+		assertNotNull(rs);
+		assertEquals(2, rs.parts.size());
+		assertEquals("one", rs.parts.get(0).string);
+		assertEquals(TokenPart.class, rs.parts.get(0).getClass());
+		assertEquals("t", rs.parts.get(1).string);
+		assertEquals(TokenPart.class, rs.parts.get(1).getClass());
+	}
+	
+	@Test
+	public void testFromString_noTokens() {
+		ReplaceableString rs = ReplaceableString.fromString("ayebee");
+		assertNotNull(rs);
+		assertEquals(1, rs.parts.size());
+		assertEquals("ayebee", rs.parts.get(0).string);
+		assertEquals(StaticPart.class, rs.parts.get(0).getClass());
+	}
+	
+	@Test
+	public void testFromString_empty() {
+		ReplaceableString rs = ReplaceableString.fromString("");
+		assertNotNull(rs);
+		assertEquals(0, rs.parts.size());
+	}
+	
+	@Test
+	public void testFromString_emptyToken() {
+		ReplaceableString rs = ReplaceableString.fromString("${}");
+		assertNotNull(rs);
+		assertEquals(0, rs.parts.size());
+	}
+	
+	@Test
+	public void testFromString_noTokens_specialChars() {
+		ReplaceableString rs = ReplaceableString.fromString("%ay$ebe{e}");
+		assertNotNull(rs);
+		assertEquals(1, rs.parts.size());
+		assertEquals("%ay$ebe{e}", rs.parts.get(0).string);
+		assertEquals(StaticPart.class, rs.parts.get(0).getClass());
 	}
 
 }
