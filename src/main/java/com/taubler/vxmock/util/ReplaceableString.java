@@ -57,6 +57,12 @@ public class ReplaceableString {
 		}
 	}
 	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		parts.forEach(p -> sb.append(p.toString()));
+		return sb.toString();
+	}
+	
 	protected static abstract class Part {
 		
 		public StringBuilder sb = new StringBuilder();
@@ -87,7 +93,7 @@ public class ReplaceableString {
 
 		@Override
 		public String toString() {
-			return "Part [string=" + string + "]";
+			return string;
 		}
 				
 	}
@@ -123,6 +129,10 @@ public class ReplaceableString {
 
 		public boolean isToken() {
 			return true;
+		}
+		
+		public String toString() {
+			return "${" + string + "}";
 		}
 		
 	}

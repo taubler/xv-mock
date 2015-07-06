@@ -2,8 +2,8 @@
 	{
 		"route": "/api/ls/v1/account/:locid/loc",
 		"setCookie": {
-			"name": "sessionid2",
-			"value": "ABC${locid}1234",
+			"name": "sessionid${locid}",
+			"value": "foo${locid}bar",
 			"path": "/",
 			"httpOnly": true,
 			"age": 345678

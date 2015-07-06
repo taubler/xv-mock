@@ -2,40 +2,42 @@ package com.taubler.vxmock.handlers;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.vertx.java.core.MultiMap;
 import org.vertx.java.core.http.HttpServerRequest;
 
-import com.taubler.vxmock.handlers.util.ValueHolder;
+import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
+import com.taubler.vxmock.util.ReplaceableString;
 
 public class SetCookieRequestHandler implements RequestHandler {
 
-	private String name;
-	private String value;
-	private String path;
+	private ReplaceableString name;
+	private ReplaceableString value;
+	private ReplaceableString path;
 	private Boolean httpOnly;
 	private Long age;
 
 	private static final String COOKIE_HEADER = "Set-Cookie";
 	private static final String DATETIME_FORMAT = "EEE, dd MMM yyyy HH:MM:SS 'GMT'";
+
+	private ParamUtil paramUtil = new ParamUtil();
 	
 	public SetCookieRequestHandler() {
 	}
 
 	@Override
 	public void handle(HttpServerRequest req) {
-		ValueHolder valueHolder = new ValueHolder(value);
 		MultiMap params = req.params();
-		params.forEach(entry -> {
-			valueHolder.value = StringUtils.replace(valueHolder.value, "${" + entry.getKey() + "}", entry.getValue());
-		});
+		Map<String, String> paramMap = paramUtil.multiMapToMap(params);
+		String finalName = name.replace(paramMap);
+		String finalValue = value.replace(paramMap);
 		
 		StringBuilder cookieSb = new StringBuilder(); 
-		cookieSb.append(name).append("=").append(valueHolder.value);
+		cookieSb.append(finalName).append("=").append(finalValue);
 		appendAge(cookieSb);
-		appendPath(cookieSb);
+		appendPath(cookieSb, paramMap);
 		appendHttpOnly(cookieSb);
 		
         MultiMap headers = req.response().headers(); // Set-Cookie
@@ -56,15 +58,15 @@ public class SetCookieRequestHandler implements RequestHandler {
 		}
 	}
 
-	public void appendPath(StringBuilder cookieSb) {
+	public void appendPath(StringBuilder cookieSb, Map<String, String> paramMap) {
+		String finalPath = path.replace(paramMap);
 		if (path != null) {
-			cookieSb.append(";").append(" path=").append(path);
+			cookieSb.append(";").append(" path=").append(finalPath);
 		}
 	}
 
 	public void appendAge(StringBuilder cookieSb) {
 		if (age != null) {
-			// use Java 8 Date API
 			LocalDateTime expires = LocalDateTime.now().plusSeconds(age);
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
 			String expiresFormat = expires.format(dtf);
@@ -73,27 +75,27 @@ public class SetCookieRequestHandler implements RequestHandler {
 	}
 
 	public String getName() {
-		return name;
+		return name.toString();
 	}
 
 	public void setName(String cookieName) {
-		this.name = cookieName;
+		this.name = ReplaceableString.fromString(cookieName);
 	}
 
 	public String getValue() {
-		return value;
+		return value.toString();
 	}
 
 	public void setValue(String cookieValue) {
-		this.value = cookieValue;
+		this.value = ReplaceableString.fromString(cookieValue);
 	}
 	
 	public String getPath() {
-		return path;
+		return path.toString();
 	}
 
 	public void setPath(String path) {
-		this.path = path;
+		this.path = ReplaceableString.fromString(path);
 	}
 
 	public Long getAge() {
