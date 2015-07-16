@@ -1,5 +1,7 @@
 package com.taubler.vxmock.handlers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -33,6 +35,9 @@ public class SetCookieRequestHandler implements RequestHandler {
 		Map<String, String> paramMap = paramUtil.multiMapToMap(params);
 		String finalName = name.replace(paramMap);
 		String finalValue = value.replace(paramMap);
+		try {
+			finalValue = URLEncoder.encode(finalValue, "UTF-8");
+		} catch (UnsupportedEncodingException e) { }
 		
 		StringBuilder cookieSb = new StringBuilder(); 
 		cookieSb.append(finalName).append("=").append(finalValue);
@@ -49,7 +54,7 @@ public class SetCookieRequestHandler implements RequestHandler {
             req.response().putHeader(COOKIE_HEADER, existingCookies + "," + newCookie); // TODO encode
         }
 
-        RuntimeMessager.output("Setting cookie: " + name + " = " + value);
+        RuntimeMessager.output("Setting cookie: " + finalName + " = " + finalValue);
 	}
 	
 	public void appendHttpOnly(StringBuilder cookieSb) {
@@ -118,6 +123,12 @@ public class SetCookieRequestHandler implements RequestHandler {
 	@Override
 	public int precedence() {
 		return PRECENDENCE_FIRST;
+	}
+
+	@Override
+	public String toString() {
+		return String.format( "Set cookie %s=%s, path:%s, age:currTime+%d seconds, httpOnly? %b", 
+				name.toString(), value.toString(), path.toString(), age, httpOnly );
 	}
 
 }

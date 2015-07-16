@@ -40,4 +40,9 @@ public class FilePathRequestHandler implements RequestHandler {
 		return PRECENDENCE_LAST;
 	}
 
+	@Override
+	public String toString() {
+		return "Return file " + path.toString();
+	}
+
 }

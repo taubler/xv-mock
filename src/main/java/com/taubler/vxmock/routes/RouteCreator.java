@@ -19,7 +19,7 @@ public class RouteCreator {
 	
 	public VxMockRouteMatcher createRoutes() throws Exception {
 		
-		Map<String, List<RequestHandler>> routes = null;
+		Map<RequestPath, List<RequestHandler>> routes = null;
 		
 		for (RouteFileParser parser : routeFileParsers) {
 			routes = parser.parse();
@@ -35,10 +35,10 @@ public class RouteCreator {
 			}
 		};
 		
-		for (String path : routes.keySet()) {
+		for (RequestPath path : routes.keySet()) {
 			RequestHandlerDelegate rhDelegate = new RequestHandlerDelegate();
 			rhDelegate.setRequestHandlers(routes.get(path));
-			matcher.get( path, rhDelegate );
+			matcher.addRoute(path.getPath(), rhDelegate, VxMockRouteMatcher.HttpRequestMethod.GET);
 		}
 		
 		return matcher;

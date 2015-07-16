@@ -8,7 +8,6 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taubler.vxmock.handlers.RequestHandler;
-import com.taubler.vxmock.handlers.RequestHandlerDelegate;
 import com.taubler.vxmock.handlers.RequestHandlerFactory;
 import com.taubler.vxmock.io.RuntimeMessager;
 
@@ -17,9 +16,10 @@ public class JsonRouteFileParser extends RouteFileParser {
 
 	public static final String FILE_NAME = "routes.json";
 	public static final String ATTR_ROUTE = "route";
+	public static final String ATTR_METHOD = "method";
 
 	@Override
-	protected void parseRoutes(File routeFile, Map<String, List<RequestHandler>> routes) throws Exception {
+	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes) throws Exception {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(routeFile);
@@ -32,13 +32,19 @@ public class JsonRouteFileParser extends RouteFileParser {
 									ATTR_ROUTE, FILE_NAME));
 					return;
 				}
+				
+				JsonNode methodNode = routeActionsNode.get(ATTR_METHOD);
+				if (methodNode != null) {
+					//TODO do something with this!!!
+				}
+				
 				String route = routeNode.asText();
 				Map<String, Map<String, String>> handlerMappings = captureHandlers(routeActionsNode);
 				List<RequestHandler> handlers = RequestHandlerFactory.getHandlers(handlerMappings);
-				routes.put(route, handlers);
+				RequestPath rPath = new RequestPath(route);
+				routes.put(rPath, handlers);
 			});
 		}
-		return;
 	}
 
 	public Map<String, Map<String, String>> captureHandlers(JsonNode jsonNode) {
@@ -46,7 +52,7 @@ public class JsonRouteFileParser extends RouteFileParser {
 		jsonNode.fields().forEachRemaining(e1 -> {
 			JsonNode mapNode = e1.getValue();
 			String key = e1.getKey();
-			if (ATTR_ROUTE.equals(key))
+			if (ATTR_ROUTE.equals(key) || ATTR_METHOD.equals(key))
 				return;
 			
 			Map<String, String> values = new HashMap<>();

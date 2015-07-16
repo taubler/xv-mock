@@ -11,15 +11,5 @@
 		"file": {
 			"path": "test-data/data.json"
 		}
-	},
-	{
-		"route": "/data/:path",
-		"file": {
-			"path": "test-data/${path}/routes.json"
-		},
-		"header": {
-			"name": "X-Foo",
-			"value": "bar"
-		}
 	}
 ]

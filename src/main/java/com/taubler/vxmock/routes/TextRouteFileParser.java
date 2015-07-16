@@ -20,7 +20,7 @@ public class TextRouteFileParser extends RouteFileParser {
 	}
 
 	@Override
-	protected void parseRoutes(File routeFile, Map<String, List<RequestHandler>> routes) throws Exception {
+	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes) throws Exception {
 		List<String> lines = Files.readAllLines(routeFile.toPath(), Charset.defaultCharset());
 		if (lines.size() % 2 != 0) {
 			throw new RuntimeException(
@@ -30,7 +30,8 @@ public class TextRouteFileParser extends RouteFileParser {
 			while (cursor < lines.size()) {
 				String urlPath = lines.get(cursor++).trim();
 				String filePath = lines.get(cursor++).trim();
-				routes.put(urlPath, Arrays.asList( new FilePathRequestHandler(filePath) ));
+				RequestPath rPath = new RequestPath(urlPath);
+				routes.put(rPath, Arrays.asList( new FilePathRequestHandler(filePath) ));
 			}
 		}
 	}

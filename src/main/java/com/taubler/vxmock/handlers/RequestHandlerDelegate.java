@@ -21,6 +21,13 @@ public class RequestHandlerDelegate implements Handler<HttpServerRequest> {
 		Collections.sort(this.requestHandlers, handlerComparator);
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		requestHandlers.forEach(rh -> sb.append("\n  - ").append(rh.toString()));
+		return sb.toString();
+	}
+	
 	Comparator<RequestHandler> handlerComparator = new Comparator<RequestHandler>() {
 
 		@Override

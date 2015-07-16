@@ -16,12 +16,25 @@ public class RequestHandlerFactory {
 	private static final String SET_COOKIE_REQUEST_HANDLER_KEY = "setcookie";
 	private static final Class<? extends RequestHandler> SET_COOKIE_REQUEST_HANDLER_CLASS = SetCookieRequestHandler.class;
 	
+	private static final String CONTENT_TYPE_REQUEST_HANDLER_KEY = "contenttype";
+	private static final Class<? extends RequestHandler> CONTENT_TYPE_REQUEST_HANDLER_CLASS = ContentTypeRequestHandler.class;
+	
+	private static final String HEADER_REQUEST_HANDLER_KEY = "header";
+	private static final Class<? extends RequestHandler> HEADER_REQUEST_HANDLER_CLASS = SetHeaderRequestHandler.class;
+	
+	private static final String REDIRECT_REQUEST_HANDLER_KEY = "redirect";
+	private static final Class<? extends RequestHandler> REDIRECT_REQUEST_HANDLER_CLASS = RedirectRequestHandler.class;
+	
+	
 	private static final Map<String, Class<? extends RequestHandler>> keysToClasses = 
 			new HashMap<String, Class<? extends RequestHandler>>() {
 				private static final long serialVersionUID = 1L;
 				{
 		put(FILE_PATH_REQUEST_HANDLER_KEY, FILE_PATH_REQUEST_HANDLER_CLASS);
 		put(SET_COOKIE_REQUEST_HANDLER_KEY, SET_COOKIE_REQUEST_HANDLER_CLASS);
+		put(CONTENT_TYPE_REQUEST_HANDLER_KEY, CONTENT_TYPE_REQUEST_HANDLER_CLASS);
+		put(HEADER_REQUEST_HANDLER_KEY, HEADER_REQUEST_HANDLER_CLASS);
+		put(REDIRECT_REQUEST_HANDLER_KEY, REDIRECT_REQUEST_HANDLER_CLASS);
 	}};
 	
 	public static RequestHandler getHandler(String name, Map<String, String> atts) {

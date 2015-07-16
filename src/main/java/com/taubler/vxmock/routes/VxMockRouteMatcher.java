@@ -1,5 +1,6 @@
 package com.taubler.vxmock.routes;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,15 +8,48 @@ import org.vertx.java.core.Handler;
 import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.http.RouteMatcher;
 
+import com.taubler.vxmock.handlers.RequestHandlerDelegate;
 import com.taubler.vxmock.io.RuntimeMessager;
 
 public class VxMockRouteMatcher extends RouteMatcher {
 	
+	public static enum HttpRequestMethod {
+		GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, CONNECT, TRACE
+	};
+	
 	private Map<String, String> routeDescriptions = new HashMap<>();
 	
-	public void addRoute(String path, String filePath) {
-		routeDescriptions.put(path, filePath);
-		get( path, handlerFor(filePath) );
+	public void addRoute(String path, RequestHandlerDelegate handler, HttpRequestMethod method) {
+		routeDescriptions.put(path, String.format("[%s] %s", method.name(), handler) );
+		switch (method) {
+		case GET:
+			get( path, handler );
+			break;
+		case POST:
+			post( path, handler );
+			break;
+		case PUT:
+			put( path, handler );
+			break;
+		case PATCH:
+			patch( path, handler );
+			break;
+		case DELETE:
+			delete( path, handler );
+			break;
+		case HEAD:
+			head( path, handler );
+			break;
+		case OPTIONS:
+			options( path, handler );
+			break;
+		case CONNECT:
+			connect( path, handler );
+			break;
+		case TRACE:
+			trace( path, handler );
+			break;
+		}
 	}
 	
 	public static Handler<HttpServerRequest> handlerFor(final String filePath) {
