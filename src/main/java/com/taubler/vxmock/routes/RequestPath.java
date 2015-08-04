@@ -4,11 +4,11 @@ package com.taubler.vxmock.routes;
 public class RequestPath  {
 	
 	public static enum Method {
-		GET, POST, PUT, PATCH, HEAD
+		GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, CONNECT, TRACE, _ANY;
 	}
 	
 	private String path;
-	private Method[] methods = new Method[] { Method.GET };
+	private Method[] methods = new Method[] { Method._ANY };
 	
 	public RequestPath() {}
 	
@@ -18,7 +18,9 @@ public class RequestPath  {
 	
 	public RequestPath(String path, Method... methods) {
 		this.path = path;
-		this.methods = methods;
+		if (methods != null && methods.length > 0) {
+			this.methods = methods;
+		}
 	}
 	
 	public String getPath() {

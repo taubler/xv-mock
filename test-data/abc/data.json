@@ -1,6 +1,6 @@
 [
 	{
-		"route": "/data",
+		"route": "ABC",
 		"setCookie": {
 			"name": "sessionid${locid}",
 			"value": "foo${locid}bar",

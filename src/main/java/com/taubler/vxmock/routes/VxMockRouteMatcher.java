@@ -13,15 +13,14 @@ import com.taubler.vxmock.io.RuntimeMessager;
 
 public class VxMockRouteMatcher extends RouteMatcher {
 	
-	public static enum HttpRequestMethod {
-		GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, CONNECT, TRACE
-	};
-	
 	private Map<String, String> routeDescriptions = new HashMap<>();
 	
-	public void addRoute(String path, RequestHandlerDelegate handler, HttpRequestMethod method) {
-		routeDescriptions.put(path, String.format("[%s] %s", method.name(), handler) );
+	public void addRoute(String path, RequestHandlerDelegate handler, RequestPath.Method method) {
+		routeDescriptions.put(String.format("[%s] %s", method.name(), path), handler.toString() );
 		switch (method) {
+		case _ANY:
+			all( path, handler );
+			break;
 		case GET:
 			get( path, handler );
 			break;

@@ -2,6 +2,7 @@ package com.taubler.vxmock.routes;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taubler.vxmock.handlers.RequestHandler;
 import com.taubler.vxmock.handlers.RequestHandlerFactory;
 import com.taubler.vxmock.io.RuntimeMessager;
+import com.taubler.vxmock.routes.RequestPath.Method;
 
 
 public class JsonRouteFileParser extends RouteFileParser {
@@ -34,14 +36,26 @@ public class JsonRouteFileParser extends RouteFileParser {
 				}
 				
 				JsonNode methodNode = routeActionsNode.get(ATTR_METHOD);
+				List<RequestPath.Method> matchingMethods = new LinkedList<>();
 				if (methodNode != null) {
-					//TODO do something with this!!!
+					if (methodNode.isArray()) {
+						methodNode.forEach(method -> {
+							String thisMethodName = method.asText();
+							Method m = Method.valueOf(thisMethodName);
+							matchingMethods.add(m);
+						});
+					} else {
+						String thisMethodName = methodNode.asText();
+						Method m = Method.valueOf(thisMethodName);
+						matchingMethods.add(m);
+					}
 				}
 				
 				String route = routeNode.asText();
 				Map<String, Map<String, String>> handlerMappings = captureHandlers(routeActionsNode);
 				List<RequestHandler> handlers = RequestHandlerFactory.getHandlers(handlerMappings);
-				RequestPath rPath = new RequestPath(route);
+				RequestPath rPath = new RequestPath(
+						route, matchingMethods.toArray(new Method[matchingMethods.size()]));
 				routes.put(rPath, handlers);
 			});
 		}

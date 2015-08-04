@@ -1,6 +1,6 @@
 [
 	{
-		"route": "/data",
+		"route": "/data/:locid",
 		"setCookie": {
 			"name": "sessionid${locid}",
 			"value": "foo${locid}bar",
@@ -15,11 +15,38 @@
 	{
 		"route": "/data/:path",
 		"file": {
-			"path": "test-data/${path}/routes.json"
+			"path": "test-data/${path}/data.json"
 		},
 		"header": {
 			"name": "X-Foo",
 			"value": "bar"
+		}
+	},
+	{
+		"route": "/data",
+		"method": "POST",
+		"file": {
+			"path": "test-data/post.json"
+		},
+		"header": {
+			"name": "X-Foo",
+			"value": "post"
+		}
+	},
+	{
+		"route": "/proxy",
+		"method": "GET",
+		"proxy": {
+			"host": "www.dtaubler.com",
+			"path": "/send-me-away/results.json"
+		}
+	},
+	{
+		"route": "/proxy2/:file",
+		"method": "GET",
+		"proxy": {
+			"host": "www.dtaubler.com",
+			"path": "/send-me-away/${file}"
 		}
 	}
 ]

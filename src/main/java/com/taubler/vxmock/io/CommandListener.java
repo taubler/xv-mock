@@ -37,11 +37,13 @@ public class CommandListener {
 		while (true) {
 			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 		    String s = bufferRead.readLine();
-		    Command command = commandMap.get(s);
-		    if (command != null) {
-		    	command.execute(this);
-		    } else {
-		    	RuntimeMessager.output("Unknown command: " + command);
+		    if (s != null && !"".equals(s)) {
+			    Command command = commandMap.get(s);
+			    if (command != null) {
+			    	command.execute(this);
+			    } else {
+			    	RuntimeMessager.output("Unknown command: " + command);
+			    }
 		    }
 		}
 	}

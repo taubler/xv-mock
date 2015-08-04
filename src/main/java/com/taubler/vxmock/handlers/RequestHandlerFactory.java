@@ -25,6 +25,9 @@ public class RequestHandlerFactory {
 	private static final String REDIRECT_REQUEST_HANDLER_KEY = "redirect";
 	private static final Class<? extends RequestHandler> REDIRECT_REQUEST_HANDLER_CLASS = RedirectRequestHandler.class;
 	
+	private static final String PROXY_REQUEST_HANDLER_KEY = "proxy";
+	private static final Class<? extends RequestHandler> PROXY_REQUEST_HANDLER_CLASS = ProxyRequestHandler.class;
+	
 	
 	private static final Map<String, Class<? extends RequestHandler>> keysToClasses = 
 			new HashMap<String, Class<? extends RequestHandler>>() {
@@ -35,6 +38,7 @@ public class RequestHandlerFactory {
 		put(CONTENT_TYPE_REQUEST_HANDLER_KEY, CONTENT_TYPE_REQUEST_HANDLER_CLASS);
 		put(HEADER_REQUEST_HANDLER_KEY, HEADER_REQUEST_HANDLER_CLASS);
 		put(REDIRECT_REQUEST_HANDLER_KEY, REDIRECT_REQUEST_HANDLER_CLASS);
+		put(PROXY_REQUEST_HANDLER_KEY, PROXY_REQUEST_HANDLER_CLASS);
 	}};
 	
 	public static RequestHandler getHandler(String name, Map<String, String> atts) {

@@ -9,6 +9,7 @@ import org.vertx.java.core.http.HttpServerRequest;
 
 import com.taubler.vxmock.handlers.RequestHandler;
 import com.taubler.vxmock.handlers.RequestHandlerDelegate;
+import com.taubler.vxmock.routes.RequestPath.Method;
 
 public class RouteCreator {
 	
@@ -38,7 +39,9 @@ public class RouteCreator {
 		for (RequestPath path : routes.keySet()) {
 			RequestHandlerDelegate rhDelegate = new RequestHandlerDelegate();
 			rhDelegate.setRequestHandlers(routes.get(path));
-			matcher.addRoute(path.getPath(), rhDelegate, VxMockRouteMatcher.HttpRequestMethod.GET);
+			for (Method method : path.getMethods()) {
+				matcher.addRoute(path.getPath(), rhDelegate, method);
+			}
 		}
 		
 		return matcher;

@@ -1,0 +1,15 @@
+[
+	{
+		"route": "DEF",
+		"setCookie": {
+			"name": "sessionid${locid}",
+			"value": "foo${locid}bar",
+			"path": "/",
+			"httpOnly": true,
+			"age": 345678
+		},
+		"file": {
+			"path": "test-data/data.json"
+		}
+	}
+]
