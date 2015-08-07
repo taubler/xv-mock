@@ -28,8 +28,9 @@ public class Mock {
 		HttpServer server = vertx.createHttpServer().requestHandler(delegatingMatcher::accept).listen(ctx.port);
 		
 		RuntimeMessager.output("Webserver started, listening on port: " + ctx.port);
-        
-        new CommandListener(this).listen();
+
+		CommandListener cl = new CommandListener(this);
+		vertx.deployVerticle(cl);
 	}
 
 	public void loadRoutes() throws Exception {
