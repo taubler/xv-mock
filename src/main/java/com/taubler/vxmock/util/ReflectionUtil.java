@@ -19,16 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.taubler.vxmock.io.RuntimeMessager;
 
 
 public class ReflectionUtil {
 	
 	public static final String DATE_TIME_FORMAT = DateUtil.ANSI_DATE_TIME_FORMAT;
-	private static Logger log = LoggerFactory.getLogger (ReflectionUtil.class);
 	
 	public static String getUnqualifiedClassName(Object o) {
 		String name = o.getClass().getName();
@@ -173,7 +169,7 @@ public class ReflectionUtil {
 				return true;
 			}
 		} catch (Exception e) {
-			log.error("Error copying field " + fieldName + " from " + fromObj + " to " + toObj, e);
+//			log.error("Error copying field " + fieldName + " from " + fromObj + " to " + toObj, e);
 		}
 		return false;
 	}
@@ -196,11 +192,11 @@ public class ReflectionUtil {
                     Object val = getter.invoke(fromObj);
                     retVal.put(propName, val);
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                    log.error("Error reading property " + propName, e);
+//                    log.error("Error reading property " + propName, e);
                 }
             }
         } catch (IntrospectionException e) {
-            log.error("Error copying property values.");
+//            log.error("Error copying property values.");
         }
 	    
 	    return retVal;

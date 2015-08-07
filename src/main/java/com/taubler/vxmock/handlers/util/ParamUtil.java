@@ -1,9 +1,9 @@
 package com.taubler.vxmock.handlers.util;
 
+import io.vertx.core.MultiMap;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.vertx.java.core.MultiMap;
 
 public class ParamUtil {
 	

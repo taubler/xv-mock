@@ -1,6 +1,6 @@
 [
 	{
-		"route": "/data/:locid",
+		"route": "/data/ck/:locid",
 		"setCookie": {
 			"name": "sessionid${locid}",
 			"value": "foo${locid}bar",

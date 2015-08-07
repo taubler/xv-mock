@@ -1,15 +1,15 @@
 package com.taubler.vxmock.handlers;
 
+import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpServerRequest;
+
 import java.util.Map;
 
-import org.vertx.java.core.MultiMap;
-import org.vertx.java.core.http.HttpServerRequest;
-
 import com.taubler.vxmock.handlers.util.ParamUtil;
-import com.taubler.vxmock.util.ReplaceableString;
 import com.taubler.vxmock.io.RuntimeMessager;
+import com.taubler.vxmock.util.ReplaceableString;
 
-public class RedirectRequestHandler implements RequestHandler {
+public class RedirectRequestHandler extends AbstractRequestHandler {
 
 	private ReplaceableString url;
 

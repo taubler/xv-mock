@@ -1,10 +1,16 @@
 package com.taubler.vxmock.routes;
 
-import org.vertx.java.core.http.HttpServerRequest;
-import org.vertx.java.core.http.RouteMatcher;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.impl.RouterImpl;
 
-public class DelegatingRouteMatcher extends RouteMatcher {
+
+public class DelegatingRouteMatcher extends RouterImpl  {
 	
+	public DelegatingRouteMatcher(Vertx vertx) {
+		super(vertx);
+	}
+
 	private VxMockRouteMatcher delegateRouteMatcher;
 	
 	public void setDelegateRouteMatcher(VxMockRouteMatcher matcher) {
@@ -16,8 +22,8 @@ public class DelegatingRouteMatcher extends RouteMatcher {
 	}
 	
 	@Override
-	public void handle(HttpServerRequest request) {
-		delegateRouteMatcher.handle(request);
+	public void accept(HttpServerRequest request) {
+		delegateRouteMatcher.accept(request);
 	}
 
 }

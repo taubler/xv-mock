@@ -1,8 +1,7 @@
 package com.taubler.vxmock;
 
-import org.vertx.java.core.Vertx;
-import org.vertx.java.core.VertxFactory;
-import org.vertx.java.core.http.HttpServer;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServer;
 
 import com.taubler.vxmock.io.CommandListener;
 import com.taubler.vxmock.io.RuntimeMessager;
@@ -12,44 +11,30 @@ import com.taubler.vxmock.routes.VxMockRouteMatcher;
 
 public class Mock {
 	
-	private static final int MIN_PORT = 1;
-	private static final int MAX_PORT = 65535;
+	private DelegatingRouteMatcher delegatingMatcher;
 	
-	private DelegatingRouteMatcher delegatingMatcher = new DelegatingRouteMatcher();
+	private Vertx vertx ;
 	
-	protected void start(String[] args) throws Exception {
+	public Mock(Vertx vx) {
+		this.vertx = vx;
+	}
+	
+	protected void start() throws Exception {
+		delegatingMatcher = new DelegatingRouteMatcher(vertx);
 		RuntimeMessager.output("Starting vx-mock...");
 
-		int port = 8099;
-		if (args.length > 0) {
-			String portStr = args[0];
-			try {
-				int suggPort = Integer.parseInt(portStr);
-				if (suggPort >= MIN_PORT && suggPort <= MAX_PORT) {
-					port = suggPort;
-				} else {
-					RuntimeMessager.output( 
-							String.format("Could not use '%d' as a port (not between %s and %d); defaulting to %d\n", 
-							suggPort, MIN_PORT, MAX_PORT, port) );
-				}
-			} catch (Exception e) {
-				RuntimeMessager.output( 
-						String.format("Could not use '%s' as a port; defaulting to %d\n", portStr, port) );
-			}
-			
-		}
-		Vertx vertx = VertxFactory.newVertx();
+		LaunchContext ctx = LaunchContextFactory.findLaunchContext();
 		loadRoutes();
-		HttpServer httpServer = vertx.createHttpServer().requestHandler(delegatingMatcher).listen(port);
+		HttpServer server = vertx.createHttpServer().requestHandler(delegatingMatcher::accept).listen(ctx.port);
 		
-		RuntimeMessager.output("Webserver started, listening on port: " + port);
+		RuntimeMessager.output("Webserver started, listening on port: " + ctx.port);
         
-        new CommandListener().listen(this);
+        new CommandListener(this).listen();
 	}
 
 	public void loadRoutes() throws Exception {
 		RouteCreator routeCreator = new RouteCreator();
-		VxMockRouteMatcher matcher = routeCreator.createRoutes();
+		VxMockRouteMatcher matcher = routeCreator.createRoutes(vertx);
 		delegatingMatcher.setDelegateRouteMatcher(matcher);
 	}
 	

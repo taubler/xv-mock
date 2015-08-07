@@ -1,10 +1,11 @@
 package com.taubler.vxmock;
 
+import io.vertx.core.AbstractVerticle;
 
-public class Embedded {
+public class Embedded extends AbstractVerticle {
 	
-	public static void main(String[] args) throws Exception {
-		new Mock().start(args);
+	public void start() throws Exception {
+		new Mock(vertx).start();
 	}
 
 }

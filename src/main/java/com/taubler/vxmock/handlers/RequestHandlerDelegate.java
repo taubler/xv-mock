@@ -1,11 +1,11 @@
 package com.taubler.vxmock.handlers;
 
+import io.vertx.core.Handler;
+import io.vertx.core.http.HttpServerRequest;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.http.HttpServerRequest;
 
 public class RequestHandlerDelegate implements Handler<HttpServerRequest> {
 	

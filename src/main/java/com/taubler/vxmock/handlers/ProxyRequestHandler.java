@@ -1,17 +1,16 @@
 package com.taubler.vxmock.handlers;
 
 
-import org.vertx.java.core.MultiMap;
-import org.vertx.java.core.VertxFactory;
-import org.vertx.java.core.http.HttpClient;
-import org.vertx.java.core.http.HttpClientRequest;
-import org.vertx.java.core.http.HttpServerRequest;
+import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.HttpClientRequest;
+import io.vertx.core.http.HttpServerRequest;
 
 import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
-public class ProxyRequestHandler implements RequestHandler {
+public class ProxyRequestHandler extends AbstractRequestHandler {
 	
 	private ParamUtil paramUtil = new ParamUtil();
 	private ReplaceableString host;
@@ -38,10 +37,8 @@ public class ProxyRequestHandler implements RequestHandler {
 		int finalPort = (port == null) ? 80 : port.intValue();
         RuntimeMessager.output("Request for to proxy response from: " + host + " based on host " + req.path());
         
-        HttpClient httpc = VertxFactory.newVertx().createHttpClient();
-        httpc.setPort(finalPort);
-        httpc.setHost(finalHost);
-    	HttpClientRequest cliReq = httpc.get(finalPath, resp -> {
+        HttpClient httpc = vertx.createHttpClient();
+    	HttpClientRequest cliReq = httpc.get(finalPort, finalHost, finalPath, resp -> {
     		RuntimeMessager.output("Got response of status " + resp.statusCode());
     		int status = resp.statusCode();
     		if (status == 200) {

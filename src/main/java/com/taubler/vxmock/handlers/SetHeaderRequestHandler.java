@@ -1,15 +1,15 @@
 package com.taubler.vxmock.handlers;
 
-import java.util.Map;
+import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpServerRequest;
 
-import org.vertx.java.core.MultiMap;
-import org.vertx.java.core.http.HttpServerRequest;
+import java.util.Map;
 
 import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
-public class SetHeaderRequestHandler implements RequestHandler {
+public class SetHeaderRequestHandler extends AbstractRequestHandler {
 
 	private ReplaceableString name;
 	private ReplaceableString value;

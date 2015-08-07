@@ -1,52 +1,57 @@
 package com.taubler.vxmock.routes;
 
 
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.impl.RouterImpl;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.http.HttpServerRequest;
-import org.vertx.java.core.http.RouteMatcher;
 
 import com.taubler.vxmock.handlers.RequestHandlerDelegate;
 import com.taubler.vxmock.io.RuntimeMessager;
 
-public class VxMockRouteMatcher extends RouteMatcher {
+public class VxMockRouteMatcher extends RouterImpl {
 	
 	private Map<String, String> routeDescriptions = new HashMap<>();
+	
+	public VxMockRouteMatcher(Vertx vertx) {
+		super(vertx);
+	}
 	
 	public void addRoute(String path, RequestHandlerDelegate handler, RequestPath.Method method) {
 		routeDescriptions.put(String.format("[%s] %s", method.name(), path), handler.toString() );
 		switch (method) {
 		case _ANY:
-			all( path, handler );
+			route( path ).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case GET:
-			get( path, handler );
+			get(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case POST:
-			post( path, handler );
+			post(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case PUT:
-			put( path, handler );
+			put(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case PATCH:
-			patch( path, handler );
+			patch(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case DELETE:
-			delete( path, handler );
+			delete(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case HEAD:
-			head( path, handler );
+			head(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case OPTIONS:
-			options( path, handler );
+			options(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case CONNECT:
-			connect( path, handler );
+			connect(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		case TRACE:
-			trace( path, handler );
+			trace(path).handler(rctx -> {handler.handle(rctx.request());});
 			break;
 		}
 	}

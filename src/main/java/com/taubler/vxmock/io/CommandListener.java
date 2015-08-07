@@ -23,29 +23,28 @@ public class CommandListener {
 			new ExitCommand(), new HelpCommand(), new RoutesCommand(), new RefreshRoutesCommand()
 			);
 	
-	public CommandListener() {
+	public CommandListener(Mock mock) {
 		for (Command command : commands) {
 			commandMap.put(command.command(), command);
 		}
 	}
 	
-	public void listen(Mock mock) throws Exception {
+	public void listen() throws Exception {
 		if (listening) throw new IllegalStateException("CommandListener is already listening");
 		listening = true;
 		
-		this.mock = mock;
-		while (true) {
-			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-		    String s = bufferRead.readLine();
-		    if (s != null && !"".equals(s)) {
-			    Command command = commandMap.get(s);
-			    if (command != null) {
-			    	command.execute(this);
-			    } else {
-			    	RuntimeMessager.output("Unknown command: " + command);
-			    }
-		    }
-		}
+//		while (true) {
+//			BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+//		    String s = bufferRead.readLine();
+//		    if (s != null && !"".equals(s)) {
+//			    Command command = commandMap.get(s);
+//			    if (command != null) {
+//			    	command.execute(this);
+//			    } else {
+//			    	RuntimeMessager.output("Unknown command: " + command);
+//			    }
+//		    }
+//		}
 	}
 	
 	public Mock getMock() {

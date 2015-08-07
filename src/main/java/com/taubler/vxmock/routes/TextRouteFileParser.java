@@ -1,5 +1,7 @@
 package com.taubler.vxmock.routes;
 
+import io.vertx.core.Vertx;
+
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -20,7 +22,8 @@ public class TextRouteFileParser extends RouteFileParser {
 	}
 
 	@Override
-	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes) throws Exception {
+	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes, Vertx vx) 
+			throws Exception {
 		List<String> lines = Files.readAllLines(routeFile.toPath(), Charset.defaultCharset());
 		if (lines.size() % 2 != 0) {
 			throw new RuntimeException(

@@ -1,5 +1,7 @@
 package com.taubler.vxmock.routes;
 
+import io.vertx.core.Vertx;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,7 +23,8 @@ public class JsonRouteFileParser extends RouteFileParser {
 	public static final String ATTR_METHOD = "method";
 
 	@Override
-	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes) throws Exception {
+	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes, Vertx vx) 
+			throws Exception {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(routeFile);
@@ -53,7 +56,7 @@ public class JsonRouteFileParser extends RouteFileParser {
 				
 				String route = routeNode.asText();
 				Map<String, Map<String, String>> handlerMappings = captureHandlers(routeActionsNode);
-				List<RequestHandler> handlers = RequestHandlerFactory.getHandlers(handlerMappings);
+				List<RequestHandler> handlers = RequestHandlerFactory.getHandlers(handlerMappings, vx);
 				RequestPath rPath = new RequestPath(
 						route, matchingMethods.toArray(new Method[matchingMethods.size()]));
 				routes.put(rPath, handlers);

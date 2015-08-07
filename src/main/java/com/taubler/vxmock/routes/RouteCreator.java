@@ -1,11 +1,12 @@
 package com.taubler.vxmock.routes;
 
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServerRequest;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.http.HttpServerRequest;
 
 import com.taubler.vxmock.handlers.RequestHandler;
 import com.taubler.vxmock.handlers.RequestHandlerDelegate;
@@ -18,21 +19,21 @@ public class RouteCreator {
 //			, new TextRouteFileParser()
 			);
 	
-	public VxMockRouteMatcher createRoutes() throws Exception {
+	public VxMockRouteMatcher createRoutes(Vertx vx) throws Exception {
 		
 		Map<RequestPath, List<RequestHandler>> routes = null;
 		
 		for (RouteFileParser parser : routeFileParsers) {
-			routes = parser.parse();
+			routes = parser.parse(vx);
 			if (routes != null) {
 				break;
 			}
 		}
 		
-		VxMockRouteMatcher matcher = new VxMockRouteMatcher() {
+		VxMockRouteMatcher matcher = new VxMockRouteMatcher(vx) {
 			public void handle(HttpServerRequest request) {
 				System.out.println("Requested URL: " + request.path());
-				super.handle(request);
+				super.accept(request);
 			}
 		};
 		

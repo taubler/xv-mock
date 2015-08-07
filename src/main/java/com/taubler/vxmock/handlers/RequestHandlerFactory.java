@@ -1,5 +1,7 @@
 package com.taubler.vxmock.handlers;
 
+import io.vertx.core.Vertx;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,21 +43,22 @@ public class RequestHandlerFactory {
 		put(PROXY_REQUEST_HANDLER_KEY, PROXY_REQUEST_HANDLER_CLASS);
 	}};
 	
-	public static RequestHandler getHandler(String name, Map<String, String> atts) {
+	public static RequestHandler getHandler(String name, Map<String, String> atts, Vertx vx) {
 		name = name.toLowerCase();
 		Class<? extends RequestHandler> reqHandlerClass = keysToClasses.get(name);
 		if (reqHandlerClass == null) {
 			return null;
 		}
 		RequestHandler reqHandler = ReflectionUtil.create(reqHandlerClass);
+		reqHandler.setVertx(vx);
 		ReflectionUtil.merge(reqHandler, atts);
 		return reqHandler;
 	}
 	
-	public static List<RequestHandler> getHandlers(Map<String, Map<String, String>> handlerMappings) {
+	public static List<RequestHandler> getHandlers(Map<String, Map<String, String>> handlerMappings, Vertx vx) {
 		List<RequestHandler> handlers = new LinkedList<>();
 		for (String key : handlerMappings.keySet()) {
-			RequestHandler rh = getHandler(key, handlerMappings.get(key));
+			RequestHandler rh = getHandler(key, handlerMappings.get(key), vx);
 			if (rh == null) {
 				RuntimeMessager.output("Unable to create a request handler of name: " + key);
 			} else {

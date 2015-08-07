@@ -1,5 +1,7 @@
 package com.taubler.vxmock.routes;
 
+import io.vertx.core.Vertx;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +12,7 @@ import com.taubler.vxmock.io.InitMessager;
 
 public abstract class RouteFileParser {
 	
-	public Map<RequestPath, List<RequestHandler>> parse() throws Exception {
+	public Map<RequestPath, List<RequestHandler>> parse(Vertx vx) throws Exception {
 		
 		String fileName = getFileName();
 		File routeFile = new File( fileName );
@@ -20,7 +22,7 @@ public abstract class RouteFileParser {
 			InitMessager.output("Reading routes file: " + routeFile);
 			Map<RequestPath, List<RequestHandler>> routes = new HashMap<>();
 			try {
-				parseRoutes(routeFile, routes);
+				parseRoutes(routeFile, routes, vx);
 				return routes;
 			} catch (Throwable t) {
 				InitMessager.output( 
@@ -36,7 +38,8 @@ public abstract class RouteFileParser {
 
 	}
 
-	protected abstract void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes) throws Exception;
+	protected abstract void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes, Vertx vx) 
+			throws Exception;
 	
 	public abstract String getFileName();
 

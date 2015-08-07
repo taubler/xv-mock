@@ -1,19 +1,19 @@
 package com.taubler.vxmock.handlers;
 
+import io.vertx.core.MultiMap;
+import io.vertx.core.http.HttpServerRequest;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-import org.vertx.java.core.MultiMap;
-import org.vertx.java.core.http.HttpServerRequest;
-
 import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
-public class SetCookieRequestHandler implements RequestHandler {
+public class SetCookieRequestHandler extends AbstractRequestHandler {
 
 	private ReplaceableString name;
 	private ReplaceableString value;
