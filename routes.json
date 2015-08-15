@@ -48,5 +48,13 @@
 			"host": "www.dtaubler.com",
 			"path": "/send-me-away/${file}"
 		}
+	},
+	{
+		"route": "/verticle",
+		"method": "GET",
+		"verticle": {
+			"address": "my.address",
+			"verticle": "myverticle.js"
+		}
 	}
 ]

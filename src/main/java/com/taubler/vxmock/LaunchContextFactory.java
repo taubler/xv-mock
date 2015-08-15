@@ -8,10 +8,10 @@ public class LaunchContextFactory {
 	private static final int MAX_PORT = 65535;
 		
 	public static LaunchContext findLaunchContext() {
-		InitMessager.output("Determining send-me-away's launch context...");
+		InitMessager.output("Determining vx-mock's launch context...");
 
 		int port = 8099;
-		String portStr = System.getProperty("send.me.away.port");
+		String portStr = System.getProperty("vxmock.port");
 		if (portStr != null) {
 			try {
 				int suggPort = Integer.parseInt(portStr);
@@ -27,7 +27,7 @@ public class LaunchContextFactory {
 			
 		}
 		LaunchContext ctx = new LaunchContext.Builder().withPort(port).build();
-		InitMessager.output("send-me-away's launch context will be " + ctx);
+		InitMessager.output("vx-mock's launch context will be " + ctx);
 		return ctx;
 	}
 

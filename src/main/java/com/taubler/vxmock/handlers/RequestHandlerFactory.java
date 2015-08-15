@@ -30,6 +30,9 @@ public class RequestHandlerFactory {
 	private static final String PROXY_REQUEST_HANDLER_KEY = "proxy";
 	private static final Class<? extends RequestHandler> PROXY_REQUEST_HANDLER_CLASS = ProxyRequestHandler.class;
 	
+	private static final String VERTICLE_REQUEST_HANDLER_KEY = "verticle";
+	private static final Class<? extends RequestHandler> VERTICLE_REQUEST_HANDLER_CLASS = VerticleRequestHandler.class;
+	
 	
 	private static final Map<String, Class<? extends RequestHandler>> keysToClasses = 
 			new HashMap<String, Class<? extends RequestHandler>>() {
@@ -41,6 +44,7 @@ public class RequestHandlerFactory {
 		put(HEADER_REQUEST_HANDLER_KEY, HEADER_REQUEST_HANDLER_CLASS);
 		put(REDIRECT_REQUEST_HANDLER_KEY, REDIRECT_REQUEST_HANDLER_CLASS);
 		put(PROXY_REQUEST_HANDLER_KEY, PROXY_REQUEST_HANDLER_CLASS);
+		put(VERTICLE_REQUEST_HANDLER_KEY, VERTICLE_REQUEST_HANDLER_CLASS);
 	}};
 	
 	public static RequestHandler getHandler(String name, Map<String, String> atts, Vertx vx) {
