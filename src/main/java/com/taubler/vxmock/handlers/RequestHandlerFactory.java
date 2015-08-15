@@ -52,6 +52,7 @@ public class RequestHandlerFactory {
 		RequestHandler reqHandler = ReflectionUtil.create(reqHandlerClass);
 		reqHandler.setVertx(vx);
 		ReflectionUtil.merge(reqHandler, atts);
+		reqHandler.postConstruct();
 		return reqHandler;
 	}
 	

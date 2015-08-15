@@ -11,4 +11,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
 		this.vertx = vx;
 	}
 
+	@Override
+	public void postConstruct() {}
+
 }

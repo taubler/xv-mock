@@ -14,5 +14,7 @@ public interface RequestHandler extends Handler<HttpServerRequest> {
 	int precedence();
 	
 	void setVertx(Vertx vx);
+	
+	void postConstruct();
 
 }
