@@ -9,6 +9,35 @@ import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
+/**
+ * RequestHandler that allows the sending of a static file in a response.
+ * <br><br>
+ * <b>Name:</b> file
+ * <br>
+ * <b>Params:</b> 
+ * <ul>
+ * <li><i>path</i></li>
+ * </ul>
+ * <br>
+ * <i>Example:</i>
+ * <br>
+ * <pre>
+  {
+    "route": "/path",
+    "file": {
+      "path": "folder/file.json"
+    }
+  },
+  {
+    "route": "/path2/:data",
+    "file": {
+      "path": "folder/${data}.json"
+    }
+  }
+ * </pre>
+ * @author dtaubler
+ *
+ */
 public class FilePathRequestHandler extends AbstractRequestHandler {
 	
 	private ParamUtil paramUtil = new ParamUtil();

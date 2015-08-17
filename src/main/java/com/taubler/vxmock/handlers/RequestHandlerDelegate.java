@@ -1,7 +1,6 @@
 package com.taubler.vxmock.handlers;
 
 import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
 
 import java.util.Collections;

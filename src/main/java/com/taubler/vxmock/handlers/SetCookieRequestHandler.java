@@ -14,6 +14,37 @@ import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
+/**
+ * RequestHandler that sets a cookie in the response.
+ * <br><br>
+ * <b>Name:</b> setCookie
+ * <br>
+ * <b>Params:</b> 
+ * <ul>
+ * <li><i>name</i> (name of the cookie)</li>
+ * <li><i>value</i> (value of the cookie)</li>
+ * <li><i>path</i> (optional: root path to which the cookie is sent)</li>
+ * <li><i>httpOnly</i> (optional; boolean)</li>
+ * <li><i>age</i> (optional; number indicating milliseconds from now that the cookie will live)</li>
+ * </ul>
+ * <br>
+ * <i>Example:</i>
+ * <br>
+ * <pre>
+  {
+    "route": "/data/:id",
+    "setCookie": {
+      "name": "sessionid",
+      "value": "id-${id}",
+      "path": "/",
+      "httpOnly": true,
+      "age": 345678
+    }
+  }
+ * </pre>
+ * @author dtaubler
+ *
+ */
 public class SetCookieRequestHandler extends AbstractRequestHandler {
 
 	private ReplaceableString name;
@@ -66,8 +97,8 @@ public class SetCookieRequestHandler extends AbstractRequestHandler {
 	}
 
 	public void appendPath(StringBuilder cookieSb, Map<String, String> paramMap) {
-		String finalPath = path.replace(paramMap);
 		if (path != null) {
+			String finalPath = path.replace(paramMap);
 			cookieSb.append(";").append(" path=").append(finalPath);
 		}
 	}

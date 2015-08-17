@@ -10,6 +10,29 @@ import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
+/**
+ * RequestHandler that sends a 302 redirect in the response.
+ * <br><br>
+ * <b>Name:</b> redirect
+ * <br>
+ * <b>Params:</b> 
+ * <ul>
+ * <li><i>url</i> (in a form like "application/json")</li>
+ * </ul>
+ * <br>
+ * <i>Example:</i>
+ * <br>
+ * <pre>
+  {
+    "route": "/redirect",
+    "redirect": {
+      "url": "http://www.yahoo.com"
+    }
+  }
+ * </pre>
+ * @author dtaubler
+ *
+ */
 public class RedirectRequestHandler extends AbstractRequestHandler {
 
 	private ReplaceableString url;

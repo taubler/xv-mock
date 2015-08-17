@@ -10,6 +10,30 @@ import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
+/**
+ * RequestHandler that sets a header in the response.
+ * <br><br>
+ * <b>Name:</b> header
+ * <br>
+ * <b>Params:</b> 
+ * <ul>
+ * <li><i>name</i> (name of the header)</li>
+ * <li><i>value</i> (value of the header)</li>
+ * </ul>
+ * <br>
+ * <i>Example:</i>
+ * <br>
+ * <pre>
+ {
+    "header": {
+      "name": "X-Foo",
+      "value": "bar"
+    }
+  }
+ * </pre>
+ * @author dtaubler
+ *
+ */
 public class SetHeaderRequestHandler extends AbstractRequestHandler {
 
 	private ReplaceableString name;

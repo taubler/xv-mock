@@ -20,6 +20,9 @@
 		"header": {
 			"name": "X-Foo",
 			"value": "bar"
+		},
+		"contentType": {
+			"type": "application/json"
 		}
 	},
 	{
@@ -55,6 +58,12 @@
 		"verticle": {
 			"address": "my.address",
 			"verticle": "myverticle.js"
+		}
+	},
+	{
+		"route": "/redirect",
+		"redirect": {
+			"url": "http://www.yahoo.com"
 		}
 	}
 ]

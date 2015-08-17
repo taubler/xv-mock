@@ -11,6 +11,34 @@ import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
+/**
+ * RequestHandler that allows the proxying of a request to another URL.
+ * In other words, this handler will return the contents that are returned
+ * by the given URL.
+ * <br><br>
+ * <b>Name:</b> route
+ * <br>
+ * <b>Params:</b> 
+ * <ul>
+ * <li><i>host</i> (in a form like "www.host.com")</li>
+ * <li><i>path</i></li>
+ * <li><i>port</i> (optional; defaults to 80)</li>
+ * </ul>
+ * <br>
+ * <i>Example:</i>
+ * <br>
+ * <pre>
+  {
+    "route": "/proxy/:file",
+    "proxy": {
+      "host": "www.somehost.com",
+      "path": "/folder/${file}",
+      "port": 8080
+  }
+ * </pre>
+ * @author dtaubler
+ *
+ */
 public class ProxyRequestHandler extends AbstractRequestHandler {
 	
 	private ParamUtil paramUtil = new ParamUtil();

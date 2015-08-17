@@ -10,6 +10,29 @@ import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
 import com.taubler.vxmock.util.ReplaceableString;
 
+/**
+ * RequestHandler that allows the setting of a response's content-type.
+ * <br><br>
+ * <b>Name:</b> contentType
+ * <br>
+ * <b>Params:</b> 
+ * <ul>
+ * <li><i>type</i> (in a form like "application/json")</li>
+ * </ul>
+ * <br>
+ * <i>Example:</i>
+ * <br>
+ * <pre>
+  {
+    "route": "/path",
+    "contentType": {
+      "type": "application/json"
+    }
+  }
+ * </pre>
+ * @author dtaubler
+ *
+ */
 public class ContentTypeRequestHandler extends AbstractRequestHandler {
 
 	private ReplaceableString type;
