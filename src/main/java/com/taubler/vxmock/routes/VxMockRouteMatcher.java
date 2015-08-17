@@ -4,6 +4,7 @@ package com.taubler.vxmock.routes;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.impl.RouterImpl;
 
 import java.util.HashMap;
@@ -18,40 +19,41 @@ public class VxMockRouteMatcher extends RouterImpl {
 	
 	public VxMockRouteMatcher(Vertx vertx) {
 		super(vertx);
+		route().handler(CookieHandler.create());  // Be able to add cookies
 	}
 	
 	public void addRoute(String path, RequestHandlerDelegate handler, RequestPath.Method method) {
 		routeDescriptions.put(String.format("[%s] %s", method.name(), path), handler.toString() );
 		switch (method) {
 		case _ANY:
-			route( path ).handler(rctx -> {handler.handle(rctx.request());});
+			route( path ).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case GET:
-			get(path).handler(rctx -> {handler.handle(rctx.request());});
+			get(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case POST:
-			post(path).handler(rctx -> {handler.handle(rctx.request());});
+			post(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case PUT:
-			put(path).handler(rctx -> {handler.handle(rctx.request());});
+			put(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case PATCH:
-			patch(path).handler(rctx -> {handler.handle(rctx.request());});
+			patch(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case DELETE:
-			delete(path).handler(rctx -> {handler.handle(rctx.request());});
+			delete(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case HEAD:
-			head(path).handler(rctx -> {handler.handle(rctx.request());});
+			head(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case OPTIONS:
-			options(path).handler(rctx -> {handler.handle(rctx.request());});
+			options(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case CONNECT:
-			connect(path).handler(rctx -> {handler.handle(rctx.request());});
+			connect(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		case TRACE:
-			trace(path).handler(rctx -> {handler.handle(rctx.request());});
+			trace(path).handler(rctx -> {handler.handle(rctx);});
 			break;
 		}
 	}

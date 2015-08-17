@@ -5,6 +5,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.RoutingContext;
 
 import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
@@ -30,7 +31,8 @@ public class ProxyRequestHandler extends AbstractRequestHandler {
 	}
 
 	@Override
-	public void handle(HttpServerRequest req) {
+	public void handle(RoutingContext ctx) {
+		HttpServerRequest req = ctx.request();
 		MultiMap params = req.params();
 		String finalHost = host.replace(paramUtil.multiMapToMap(params));
 		String finalPath = path.replace(paramUtil.multiMapToMap(params));

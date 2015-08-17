@@ -2,17 +2,18 @@ package com.taubler.vxmock.handlers;
 
 import io.vertx.core.Handler;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.RoutingContext;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class RequestHandlerDelegate implements Handler<HttpServerRequest> {
+public class RequestHandlerDelegate implements Handler<RoutingContext> {
 	
 	private List<RequestHandler> requestHandlers;
 
 	@Override
-	public void handle(HttpServerRequest event) {
+	public void handle(RoutingContext event) {
 		requestHandlers.forEach(rh -> rh.handle(event));
 	}
 	

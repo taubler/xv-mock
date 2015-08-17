@@ -2,6 +2,7 @@ package com.taubler.vxmock.handlers;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.RoutingContext;
 
 import java.util.Map;
 
@@ -21,7 +22,8 @@ public class RedirectRequestHandler extends AbstractRequestHandler {
 	}
 
 	@Override
-	public void handle(HttpServerRequest req) {
+	public void handle(RoutingContext ctx) {
+		HttpServerRequest req = ctx.request();
 		MultiMap params = req.params();
 		Map<String, String> paramMap = paramUtil.multiMapToMap(params);
 		String finalUrl = url.replace(paramMap);

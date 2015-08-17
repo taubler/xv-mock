@@ -3,6 +3,7 @@ package com.taubler.vxmock.handlers;
 
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServerRequest;
+import io.vertx.ext.web.RoutingContext;
 
 import com.taubler.vxmock.handlers.util.ParamUtil;
 import com.taubler.vxmock.io.RuntimeMessager;
@@ -21,7 +22,8 @@ public class FilePathRequestHandler extends AbstractRequestHandler {
 	}
 
 	@Override
-	public void handle(HttpServerRequest req) {
+	public void handle(RoutingContext ctx) {
+		HttpServerRequest req = ctx.request();
 		MultiMap params = req.params();
 		String finalPath = path.replace(paramUtil.multiMapToMap(params));
         RuntimeMessager.output("Request for file: " + path + " based on path " + req.path());
