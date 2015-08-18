@@ -1,5 +1,6 @@
 package com.taubler.vxmock.handlers.util;
 
+import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Cookie;
@@ -13,25 +14,34 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.taubler.vxmock.io.RuntimeMessager;
+import com.taubler.vxmock.util.MultiMapSerializer;
 
 public class RequestUtil {
 	
-	private ObjectMapper mapper = new ObjectMapper();
+	private ObjectMapper mapper;
+	
+	public RequestUtil() {
+		mapper = new ObjectMapper();
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(MultiMap.class, new MultiMapSerializer());
+		mapper.registerModule(module);
+	}
 
 	public String serialize(HttpServerRequest request) {
 		Map<String, Object> reqMap = new HashMap<>();
 		reqMap.put("absoluteUri", request.absoluteURI());
 		reqMap.put("form", request.formAttributes());
 		reqMap.put("headers", request.headers());
-		reqMap.put("localHost", request.localAddress().host());
-		reqMap.put("localPort", request.localAddress().port());
+		reqMap.put("localHost", (request.localAddress() == null) ? null : request.localAddress().host());
+		reqMap.put("localPort", (request.localAddress() == null) ? null : request.localAddress().port());
 		reqMap.put("method", request.method());
 		reqMap.put("params", request.params());
 		reqMap.put("path", request.path());
 		reqMap.put("query", request.query());
-		reqMap.put("remoteHost", request.remoteAddress().host());
-		reqMap.put("remotePort", request.remoteAddress().port());
+		reqMap.put("remoteHost", (request.remoteAddress() == null) ? null : request.remoteAddress().host());
+		reqMap.put("remotePort", (request.remoteAddress() == null) ? null : request.remoteAddress().port());
 		reqMap.put("uri", request.uri());
 		reqMap.put("httpVersion", request.version());
 		
