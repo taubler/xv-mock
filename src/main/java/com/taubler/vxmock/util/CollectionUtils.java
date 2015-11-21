@@ -22,6 +22,10 @@ public class CollectionUtils {
         return map;
     }
     
+    public static interface MapEntry<K, V> {
+    	MapEntry<K, V> add(K k, V v);
+    }
+    
     @SafeVarargs
     public static <E> List<E> $l(E... ee) {
         List<E> list = new ArrayList<>();

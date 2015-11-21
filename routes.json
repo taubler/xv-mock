@@ -37,6 +37,13 @@
 		}
 	},
 	{
+		"route": "/not-found",
+		"method": "GET",
+		"setStatus": {
+			"status": 404
+		}
+	},
+	{
 		"route": "/proxy",
 		"method": "GET",
 		"proxy": {

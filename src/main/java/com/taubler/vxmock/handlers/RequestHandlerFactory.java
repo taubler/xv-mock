@@ -18,6 +18,9 @@ public class RequestHandlerFactory {
 	private static final String SET_COOKIE_REQUEST_HANDLER_KEY = "setcookie";
 	private static final Class<? extends RequestHandler> SET_COOKIE_REQUEST_HANDLER_CLASS = SetCookieRequestHandler.class;
 	
+	private static final String SET_STATUS_REQUEST_HANDLER_KEY = "setstatus";
+	private static final Class<? extends RequestHandler> SET_STATUS_REQUEST_HANDLER_CLASS = SetStatusRequestHandler.class;
+	
 	private static final String CONTENT_TYPE_REQUEST_HANDLER_KEY = "contenttype";
 	private static final Class<? extends RequestHandler> CONTENT_TYPE_REQUEST_HANDLER_CLASS = ContentTypeRequestHandler.class;
 	
@@ -40,6 +43,7 @@ public class RequestHandlerFactory {
 				{
 		put(FILE_PATH_REQUEST_HANDLER_KEY, FILE_PATH_REQUEST_HANDLER_CLASS);
 		put(SET_COOKIE_REQUEST_HANDLER_KEY, SET_COOKIE_REQUEST_HANDLER_CLASS);
+		put(SET_STATUS_REQUEST_HANDLER_KEY, SET_STATUS_REQUEST_HANDLER_CLASS);
 		put(CONTENT_TYPE_REQUEST_HANDLER_KEY, CONTENT_TYPE_REQUEST_HANDLER_CLASS);
 		put(HEADER_REQUEST_HANDLER_KEY, HEADER_REQUEST_HANDLER_CLASS);
 		put(REDIRECT_REQUEST_HANDLER_KEY, REDIRECT_REQUEST_HANDLER_CLASS);
