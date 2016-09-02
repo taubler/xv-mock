@@ -1,76 +1,109 @@
 [
+
 	{
-		"route": "/data/ck/:locid",
-		"setCookie": {
-			"name": "sessionid${locid}",
-			"value": "foo${locid}bar",
-			"path": "/",
-			"httpOnly": true,
-			"age": 345678
-		},
-		"file": {
-			"path": "test-data/data.json"
-		}
+		"port": 8096,
+		"routes":
+		[
+			{
+				"route": "/data/ck/:locid",
+				"file": {
+					"path": "test-data/abc/data.json"
+				}
+			}
+		]
 	},
 	{
-		"route": "/data/:path",
-		"file": {
-			"path": "test-data/${path}/data.json"
-		},
-		"header": {
-			"name": "X-Foo",
-			"value": "bar"
-		},
-		"contentType": {
-			"type": "application/json"
-		}
+		"port": 8099,
+		"routes":
+		[
+			{
+				"route": "/data/ck2/:locid",
+				"file": {
+					"path": "test-data/abc/data.json"
+				}
+			}
+		]
 	},
 	{
-		"route": "/data",
-		"method": "POST",
-		"file": {
-			"path": "test-data/post.json"
-		},
-		"header": {
-			"name": "X-Foo",
-			"value": "post"
-		}
-	},
-	{
-		"route": "/not-found",
-		"method": "GET",
-		"setStatus": {
-			"status": 404
-		}
-	},
-	{
-		"route": "/proxy",
-		"method": "GET",
-		"proxy": {
-			"host": "www.dtaubler.com",
-			"path": "/send-me-away/results.json"
-		}
-	},
-	{
-		"route": "/proxy2/:file",
-		"method": "GET",
-		"proxy": {
-			"host": "www.dtaubler.com",
-			"path": "/send-me-away/${file}"
-		}
-	},
-	{
-		"route": "/verticle",
-		"method": "GET",
-		"verticle": {
-			"address": "my.address",
-			"verticle": "myverticle.js"
-		}
-	},
-	{
-		"route": "/redirect",
-		"redirect": {
-			"url": "http://www.yahoo.com"
-		}
+		"port": 8099,
+		"routes":
+
+		[
+			{
+				"route": "/data/ck/:locid",
+				"setCookie": {
+					"name": "sessionid${locid}",
+					"value": "foo${locid}bar",
+					"path": "/",
+					"httpOnly": true,
+					"age": 345678
+				},
+				"file": {
+					"path": "test-data/data.json"
+				}
+			},
+			{
+				"route": "/data/:path",
+				"file": {
+					"path": "test-data/${path}/data.json"
+				},
+				"header": {
+					"name": "X-Foo",
+					"value": "bar"
+				},
+				"contentType": {
+					"type": "application/json"
+				}
+			},
+			{
+				"route": "/data",
+				"method": "POST",
+				"file": {
+					"path": "test-data/post.json"
+				},
+				"header": {
+					"name": "X-Foo",
+					"value": "post"
+				}
+			},
+			{
+				"route": "/not-found",
+				"method": "GET",
+				"setStatus": {
+					"status": 404
+				}
+			},
+			{
+				"route": "/proxy",
+				"method": "GET",
+				"proxy": {
+					"host": "www.dtaubler.com",
+					"path": "/send-me-away/results.json"
+				}
+			},
+			{
+				"route": "/proxy2/:file",
+				"method": "GET",
+				"proxy": {
+					"host": "www.dtaubler.com",
+					"path": "/send-me-away/${file}"
+				}
+			},
+			{
+				"route": "/verticle",
+				"method": "GET",
+				"verticle": {
+					"address": "my.address",
+					"verticle": "myverticle.js"
+				}
+			},
+			{
+				"route": "/redirect",
+				"redirect": {
+					"url": "http://www.yahoo.com"
+				}
+			}
+		]
+
 	}
 ]

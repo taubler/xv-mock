@@ -69,7 +69,7 @@ public class VxMockRouteMatcher extends RouterImpl {
 	
 	public void print() {
 		for (String path : routeDescriptions.keySet()) {
-			RuntimeMessager.output( String.format("%s  =>  %s", path, routeDescriptions.get(path)) );
+			RuntimeMessager.output( String.format("  %s  =>  %s", path, routeDescriptions.get(path)) );
 		}
 	}
 

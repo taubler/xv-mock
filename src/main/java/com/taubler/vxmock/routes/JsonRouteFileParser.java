@@ -19,17 +19,44 @@ import com.taubler.vxmock.routes.RequestPath.Method;
 public class JsonRouteFileParser extends RouteFileParser {
 
 	public static final String FILE_NAME = "routes.json";
-	public static final String ATTR_ROUTE = "route";
+	
+	public static final String ATTR_PORT = "port";
+    public static final String ATTR_ROUTES = "routes";
+    public static final String ATTR_ROUTE = "route";
 	public static final String ATTR_METHOD = "method";
 
-	@Override
-	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes, Vertx vx) 
-			throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode jsonNode = objectMapper.readTree(routeFile);
-		if (jsonNode.isArray()) {
-			jsonNode.forEach(routeActionsNode -> {
+	@Override
+	protected void parseRoutes(File routeFile, /*Map<RequestPath, List<RequestHandler>>*/ List<SubServer> subServers, Vertx vx) 
+			throws Exception {
+		JsonNode topJsonNode = objectMapper.readTree(routeFile);
+		if (topJsonNode.isArray()) {
+		    topJsonNode.forEach(subServerNode -> {
+		        if (subServerNode.isObject()) {
+		            JsonNode portNode = subServerNode.get(ATTR_PORT);
+		            int port = portNode.asInt(); // defaults to 0 if not really an int
+		            Map<RequestPath, List<RequestHandler>> routesMap = new HashMap<>();
+		            JsonNode routesNode = subServerNode.get(ATTR_ROUTES);
+		            parseRoutes(routesMap, vx, routesNode);
+		            ensureRoutesMapToSubServer(port, routesMap, subServers);
+		        }
+		    });
+		}
+	}
+	
+	private void ensureRoutesMapToSubServer(int port, Map<RequestPath, List<RequestHandler>> routesMap, List<SubServer> subServers) {
+	    SubServer subServer = subServers.stream().filter(ss -> {return ss.getPort() == port;}).findAny().orElseGet(() -> {
+    	        SubServer ss = new SubServer(port);
+    	        subServers.add(ss);
+    	        return ss;
+	        });
+	    subServer.addRoutes(routesMap);
+	}
+
+    private void parseRoutes(Map<RequestPath, List<RequestHandler>> routes, Vertx vx, JsonNode arrayJsonNode) {
+        if (arrayJsonNode.isArray()) {
+			arrayJsonNode.forEach(routeActionsNode -> {
 				JsonNode routeNode = routeActionsNode.get(ATTR_ROUTE);
 				if (routeNode == null) {
 					RuntimeMessager.output( 
@@ -62,7 +89,7 @@ public class JsonRouteFileParser extends RouteFileParser {
 				routes.put(rPath, handlers);
 			});
 		}
-	}
+    }
 
 	public Map<String, Map<String, String>> captureHandlers(JsonNode jsonNode) {
 		Map<String, Map<String, String>> entries = new HashMap<>();

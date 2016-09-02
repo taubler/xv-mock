@@ -5,12 +5,7 @@ import io.vertx.core.Vertx;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import com.taubler.vxmock.handlers.FilePathRequestHandler;
-import com.taubler.vxmock.handlers.RequestHandler;
 
 public class TextRouteFileParser extends RouteFileParser {
 	
@@ -22,8 +17,8 @@ public class TextRouteFileParser extends RouteFileParser {
 	}
 
 	@Override
-	protected void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes, Vertx vx) 
-			throws Exception {
+    protected void parseRoutes(File routeFile, /*Map<RequestPath, List<RequestHandler>>*/ List<SubServer> subServers, Vertx vx) 
+            throws Exception {
 		List<String> lines = Files.readAllLines(routeFile.toPath(), Charset.defaultCharset());
 		if (lines.size() % 2 != 0) {
 			throw new RuntimeException(
@@ -34,7 +29,7 @@ public class TextRouteFileParser extends RouteFileParser {
 				String urlPath = lines.get(cursor++).trim();
 				String filePath = lines.get(cursor++).trim();
 				RequestPath rPath = new RequestPath(urlPath);
-				routes.put(rPath, Arrays.asList( new FilePathRequestHandler(filePath) ));
+//				routes.put(rPath, Arrays.asList( new FilePathRequestHandler(filePath) ));
 			}
 		}
 	}

@@ -3,16 +3,14 @@ package com.taubler.vxmock.routes;
 import io.vertx.core.Vertx;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import com.taubler.vxmock.handlers.RequestHandler;
 import com.taubler.vxmock.io.InitMessager;
 
 public abstract class RouteFileParser {
 	
-	public Map<RequestPath, List<RequestHandler>> parse(Vertx vx) throws Exception {
+	public /*Map<RequestPath, List<RequestHandler>>*/ List<SubServer> parse(Vertx vx) throws Exception {
 		
 		String fileName = getFileName();
 		File routeFile = new File( fileName );
@@ -20,10 +18,11 @@ public abstract class RouteFileParser {
 		if (routeFile.exists()) {
 			
 			InitMessager.output("Reading routes file: " + routeFile);
-			Map<RequestPath, List<RequestHandler>> routes = new HashMap<>();
+//			Map<RequestPath, List<RequestHandler>> routes = new HashMap<>();
+			List<SubServer> subServers = new ArrayList<>();
 			try {
-				parseRoutes(routeFile, routes, vx);
-				return routes;
+				parseRoutes(routeFile, subServers, vx);
+				return subServers;
 			} catch (Throwable t) {
 				InitMessager.output( 
 						String.format("Unable to construct routes from file %s; %s", fileName, t.getMessage()) );
@@ -38,7 +37,7 @@ public abstract class RouteFileParser {
 
 	}
 
-	protected abstract void parseRoutes(File routeFile, Map<RequestPath, List<RequestHandler>> routes, Vertx vx) 
+	protected abstract void parseRoutes(File routeFile, /*Map<RequestPath, List<RequestHandler>>*/ List<SubServer> routes, Vertx vx) 
 			throws Exception;
 	
 	public abstract String getFileName();

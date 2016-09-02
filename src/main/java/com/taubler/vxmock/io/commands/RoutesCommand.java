@@ -19,7 +19,7 @@ public class RoutesCommand implements Command {
 	@Override
 	public void execute(CommandListener commandListener) {
 		RuntimeMessager.output("\nROUTES:");
-		commandListener.getMock().getRouteMatcher().print();
+        commandListener.getMock().printRouteMatchers();
 	}
 
 }

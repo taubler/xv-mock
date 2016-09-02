@@ -21,7 +21,7 @@ public class RefreshRoutesCommand implements Command {
 		RuntimeMessager.output("REFRESHING ROUTES...");
 		commandListener.getMock().loadRoutes();
 		RuntimeMessager.output("NEW ROUTES:");
-		commandListener.getMock().getRouteMatcher().print();
+        commandListener.getMock().printRouteMatchers();
 	}
 
 }
