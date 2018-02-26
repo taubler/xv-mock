@@ -25,7 +25,6 @@ public class Mock {
 	}
 	
 	protected void start() throws Exception {
-//		delegatingMatcher = new DelegatingRouteMatcher(vertx);
 		RuntimeMessager.output("Starting vx-mock...");
 
 		LaunchContext ctx = LaunchContextFactory.findLaunchContext();
@@ -42,14 +41,12 @@ public class Mock {
 
 	public void loadRoutes() throws Exception {
 		RouteCreator routeCreator = new RouteCreator();
-//		VxMockRouteMatcher matcher 
 		Map<Integer, VxMockRouteMatcher> matchers = routeCreator.createRoutes(vertx);
 		matchers.forEach((k, v) -> {
 		    DelegatingRouteMatcher delegatingMatcher = new DelegatingRouteMatcher(vertx);
 		    delegatingMatcher.setDelegateRouteMatcher(v);
 		    delegatingMatchers.put(k, delegatingMatcher);
 		});
-//		delegatingMatcher.setDelegateRouteMatcher(matcher);
 	}
 	
 	public Map<Integer, VxMockRouteMatcher> getRouteMatchers() {
